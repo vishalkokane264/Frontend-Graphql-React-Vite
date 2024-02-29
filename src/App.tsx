@@ -2,10 +2,12 @@ import { gql, useQuery } from "@apollo/client";
 import React from "react";
 
 const GET_LOCATIONS = gql`
-  query GetBooks {
-    books {
-      title
-      author
+  query ExampleQuery {
+    users {
+      id
+      name
+      username
+      email
     }
   }
 `;
@@ -16,16 +18,35 @@ export const App = () => {
   if (loading) return "Loading...";
   if (error) return <pre>{error.message}</pre>;
 
-  return data.locations.map(({ id, name, description, photo }: any) => (
-    <div key={id}>
-      <h3>{name}</h3>
-      <img width="400" height="250" alt="location-reference" src={`${photo}`} />
-      <br />
-      <b>About this location:</b>
-      <p>{description}</p>
-      <br />
+  return (
+    <div>
+      <h3>Users list</h3>
+      <div>
+        <table style={{ width: "100%" }}>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>NAME</th>
+              <th>USER NAME</th>
+              <th>EMAIL</th>
+            </tr>
+          </thead>
+          <tbody>
+            {data.users.map((user: any) => {
+              return (
+                <tr>
+                  <td>{user.id}</td>
+                  <td>{user.name}</td>
+                  <td>{user.username}</td>
+                  <td>{user.email}</td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
     </div>
-  ));
+  );
 };
 
 export default App;
